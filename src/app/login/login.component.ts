@@ -1,21 +1,30 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  form = new FormGroup({
-    username: new FormControl(null, Validators.required),
-    password: new FormControl(null, Validators.required),
-  });
-
-  submitForm() {
-    if (this.form.invalid)
-    return;
+  constructor(
+    private builder: FormBuilder,
+    private toastr: ToastrService,
+    private service: AuthService,
+    private router: Router
+  ) {
+    sessionStorage.clear();
   }
 
+  result: any;
+
+  loginform = this.builder.group({
+    id: this.builder.control('', Validators.required),
+    password: this.builder.control('', Validators.required),
+  });
+
+  login() {}
 }
