@@ -28,4 +28,16 @@ export class AuthService {
   userRegistration(inputdata:any){
     return this.http.post(this.apiurl,inputdata)
   }
+
+  isloggedin(){
+    return sessionStorage.getItem('username')!=null;
+  }
+
+  getuserrole(){
+    return this.http.get('http://localhost:3000/role');
+  }
+
+  getrole(){
+    return sessionStorage.getItem('role')!=null?sessionStorage.getItem('role')?.toString():'';
+  }
 }
