@@ -26,5 +26,24 @@ export class LoginComponent {
     password: this.builder.control('', Validators.required),
   });
 
-  login() {}
+  login() {
+    if (this.loginform.valid) {
+      this.service.getUserbyCode(this.loginform.value.id).subscribe((res) => {
+        this.result = res;
+        if (this.result.password === this.loginform.value.password) {
+          if (this.result.isactive) {
+            sessionStorage.setItem('username',this.result.id);
+            sessionStorage.setItem('role',this.result.role);
+            this.router.navigate(['']);
+          } else {
+            this.toastr.error('Please contact Admin', 'InActive User');
+          }
+        } else {
+          this.toastr.error('Invalid credentials');
+        }
+      });
+    } else {
+      this.toastr.warning('Please enter valid data.')
+    }
+  }
 }
